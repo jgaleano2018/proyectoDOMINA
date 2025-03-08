@@ -5,6 +5,7 @@
   - axios 0.27.2
   - bootstrap 4
 # Install Depedendecies
+  - npm install
   - npm install bootstrap
   - npm install react-router-dom
   - npm install axios
