@@ -32,14 +32,15 @@ export default class Task extends Component {
 
   handleEnableTask = (event) => {
     const taskId = event.target.value;
-    localStorage.setItem('task', JSON.stringify({"id":taskId}));  
+    console.log("TASK ID::::: " + taskId);
+    localStorage.setItem('task', JSON.stringify(taskId));  
   }
 
   render() {  
     return (
       
       <div>        
-        <NavLink exact="true" className="nav-link me-5" to={"/components/task/add/"} activeStyle={{ backgroundColor: '#0022ff', color: '#FFF' }} style={{color: 'blue'}}>Add New Task
+        <NavLink exact="true" className="nav-link me-5" to={"/components/task/add/"} style={{color: 'blue'}}>Add New Task
         </NavLink>
 
         <h1>Tasks</h1>
@@ -64,12 +65,12 @@ export default class Task extends Component {
                     <td>
                       <input
                         type="checkbox"
-                        value="item.id"
+                        value={item.id}
                         onChange={this.handleEnableTask}
                       />
                     </td>
                     <td>
-                        <NavLink exact="true" className="nav-link me-5" to={"/components/task/update/" + item.id} activeStyle={{ backgroundColor: '#0022ff', color: '#FFF' }} style={{color: 'blue'}}>Edit
+                        <NavLink exact="true" className="nav-link me-5" to={"/components/task/update/" + item.id} style={{color: 'blue'}}>Edit
                         </NavLink>
                     </td>
                     <td>{item.id}</td>
@@ -79,6 +80,10 @@ export default class Task extends Component {
             })}
             </tbody>
         </table>
+        <br/>
+        <label>
+          Before it edit a task, You need to do to selected the edit checkbox, and continue click over edit link!
+        </label>
       </div>
 
     );

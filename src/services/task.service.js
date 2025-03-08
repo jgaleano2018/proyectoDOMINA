@@ -6,6 +6,7 @@ class TaskDataService {
   }
 
   get(id) {
+    console.log("This is a test - next reprocess this activity...."+id);
     return http.get(`/task/${id}`);
   }
 

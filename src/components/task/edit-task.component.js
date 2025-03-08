@@ -1,69 +1,44 @@
 import React, { Component } from "react";
 import TaskDataService from "../../services/task.service";
-import { withRouter } from '../../common/with-router';
 
-class UpdateTask extends Component {
+export default class UpdateTask extends Component {
   constructor(props) {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
-    this.getTask = this.getTask.bind(this);
     this.updateTask = this.updateTask.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
-    this.retrieveTask = this.retrieveTask.bind(this);
-
     this.state = {
-      currentTask: {
-        id: null,
-        name: "",
-        published: false
-      },
-      currentTaskSource: null,
-      tasks:[],
-      message: ""
+      id: null,
+      name: "",
+      submitted: false,
+      tasks:[]
     };
+    this.retrieveTask = this.retrieveTask.bind(this);
   }
 
   componentDidMount() {
     let taskId = JSON.parse(localStorage.getItem('task'));    
-    this.retrieveTask();
+    this.retrieveTask(taskId);
   }
 
   onChangeName(e) {
-    const name = e.target.value;
-
-    this.setState(function(prevState) {
-      return {
-        currentTask: {
-          ...prevState.currentTask,
-          name: name
-        }
-      };
+    this.setState({
+      name: e.target.value
     });
-  }
-
-  getTask(id) {
-    TaskDataService.get(id)
-      .then(response => {
-        this.setState({
-          currentTask: response.data
-        });
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
   }
 
   updateTask() {
     TaskDataService.update(
-      this.state.currentTask.id,
-      this.state.currentTask
+      JSON.parse(localStorage.getItem('task')),
+      {"id":this.state.id,
+      "name":this.state.name}
     )
       .then(response => {
         console.log(response.data);
         this.setState({
           message: "The task was updated successfully!"
         });
+        console.log("The task was updated succesfully");
       })
       .catch(e => {
         console.log(e);
@@ -71,7 +46,7 @@ class UpdateTask extends Component {
   }
 
   deleteTask() {    
-    TaskDataService.delete(this.state.currentTask.id)
+    TaskDataService.delete(JSON.parse(localStorage.getItem('task')))
       .then(response => {
         console.log(response.data);
         this.props.router.navigate('/task');
@@ -81,13 +56,14 @@ class UpdateTask extends Component {
       });
   }
 
-  retrieveTask() {
-      TaskDataService.getAll()
+  retrieveTask(taskId) {
+      TaskDataService.get(taskId)
       .then(response => {
-          this.setState({
-              tasks: response.data
-          });
-          console.log(response.data);
+          this.state = {
+            id: response.data[0].id,
+            name: response.data[0].name,
+            tasks: response.data
+          };
       })
       .catch(e => {
           console.log(e);
@@ -95,25 +71,31 @@ class UpdateTask extends Component {
   }
 
   render() {
-    const { currentTask } = this.state;
-
     return (
-      <div>
-        {currentTask ? (
-          <div className="edit-form">
-            <h4>Task</h4>
-            <form>
-              <div className="form-group">
-                <label htmlFor="title">Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="name"
-                  value={currentTask.name}
-                  onChange={this.onChangeName}
-                />
-              </div>
-            </form>
+      <>
+        <h1>Edit Task</h1>
+        <br/>
+        <div className="">
+        {this.state.submitted ? (
+          <div>
+            <h4>You submitted successfully!</h4>
+            <button className="btn btn-success" onClick={this.newUser}>
+              Add
+            </button>
+          </div>
+        ) : (
+          <div>
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="name"
+                required
+                value={this.state.name}
+                onChange={this.onChangeName}
+                name="name" />
+            </div>
 
             <button
               style={{
@@ -150,18 +132,9 @@ class UpdateTask extends Component {
               }}
               onClick={this.updateTask}
             >Update</button>
-            
-            <p>{this.state.message}</p>
-          </div>
-        ) : (
-          <div>
-            <br />
-            <p>Please click on a Task...</p>
           </div>
         )}
-      </div>
-    );
+      </div></>  
+    )
   }
 }
-
-export default withRouter(UpdateTask);

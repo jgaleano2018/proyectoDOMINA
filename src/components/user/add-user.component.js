@@ -233,6 +233,7 @@ export default class AddUser extends Component {
               />
             </div>
 
+            <br/>
 
             <div className="col-md-6">
                 <h4>Roles List</h4>

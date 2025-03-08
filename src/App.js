@@ -34,6 +34,7 @@ class App extends Component {
 
         <div className="container mt-3">
           <Routes>
+            <Route path="/" element={<User/>} />
             <Route path="/components/user/user" element={<User/>} />
             <Route path="/components/user/add" element={<AddUser/>} />
             <Route path="/components/task/task" element={<Task/>} />

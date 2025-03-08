@@ -50,7 +50,8 @@ export default class AddTask extends Component {
 
   render() {
     return (
-      <div className="submit-form">
+      <><h1>New Task</h1><br />
+       <div className="">
         {this.state.submitted ? (
           <div>
             <h4>You submitted successfully!</h4>
@@ -69,16 +70,14 @@ export default class AddTask extends Component {
                 required
                 value={this.state.name}
                 onChange={this.onChangeName}
-                name="name"
-              />
+                name="name" />
             </div>
-
             <button onClick={this.saveTask} className="btn btn-success">
               Submit
             </button>
           </div>
         )}
-      </div>
+      </div></>
     );
   }
 }

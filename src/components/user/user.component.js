@@ -33,15 +33,7 @@ export default class User extends Component {
       password: e.target.value
     });
 
-    console.log("onChangePassword Event:::" + e.target.value);
-    console.log(this.state.users);
-
     this.state.users.forEach((user, index) => {
-        console.log(this.state.users[index].userName);
-        console.log(this.state.userName);
-        console.log(this.state.users[index].password);
-        console.log(e.target.value);
-
 
         if(this.state.users[index].userName === this.state.userName && this.state.users[index].password === e.target.value) {
             this.setState({
@@ -101,10 +93,10 @@ export default class User extends Component {
             </div>
 
             <div className="d-flex justify-content-start">
-            <NavLink exact="true" className="nav-link me-5" to={"/components/task/user-task/" + this.state.id}>Login
+            <NavLink exact="true" className="nav-link me-5" to={"/components/task/user-task/" + this.state.id} style={{color: 'blue'}}>Login
             </NavLink>
 
-            <NavLink exact="true" className="nav-link" to={"/components/user/add/"}>Register New user
+            <NavLink exact="true" className="nav-link" to={"/components/user/add/"} style={{color: 'blue'}}>Register New user
             </NavLink>
             </div>
           </div>
